@@ -8,17 +8,17 @@ public class FlashCard {
 private SimpleStringProperty firstWord = new SimpleStringProperty("");
 private SimpleStringProperty secondWord = new SimpleStringProperty("");
 
-public FlashCard(String textToTranslate, String translatedText) {
+public FlashCard(String writedText, String translatedText) {
 	firstWord = new SimpleStringProperty(); 
 	secondWord = new SimpleStringProperty();
-	setFirstWord(textToTranslate);
+	setFirstWord(writedText);
 	setSecondWord(translatedText);
 }
 public String getFirstWord() {
 	return firstWord.get();
 }
-public void setFirstWord(String textToTranslate) {
-	this.firstWord.setValue(textToTranslate);
+public void setFirstWord(String writedText) {
+	this.firstWord.setValue(writedText);
 }
 public String getSecondWord() {
 	return secondWord.get();

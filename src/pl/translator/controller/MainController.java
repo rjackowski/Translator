@@ -45,7 +45,7 @@ public class MainController  implements Initializable{
     private MenuButton MBtnTranslatedText;
 
     @FXML
-    private MenuButton MBtnTextToTranslate;
+    private MenuButton MBtnWritedText;
 
     @FXML
     private TableView<FlashCard> TVwordList = new TableView<FlashCard>() ;
@@ -62,11 +62,11 @@ public class MainController  implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		 // Set a default text and language in menuButton
-		 MBtnTextToTranslate.setText("Polski");
+		 MBtnWritedText.setText("Polski");
 		 MBtnTranslatedText.setText("Angielski");
 		 // We are creating new object to translate text and giving a default languages like a parameters
 		 // We take languages from default text on buttons
-		 Translate tr = new Translate(languageMap.get(MBtnTextToTranslate.getText()), languageMap.get(MBtnTranslatedText.getText()));
+		 Translate tr = new Translate(languageMap.get(MBtnWritedText.getText()), languageMap.get(MBtnTranslatedText.getText()));
 
 		 // Initialization for  columns
 		 // In field PropertyValueFactory name of variable from FlashCard class
@@ -86,9 +86,9 @@ public class MainController  implements Initializable{
 		        public void handle(ActionEvent event) {
 		          try {
 
-		        	String textToTranslate =  TxtAWritedText.getText();
-					String translatedText = tr.translate(textToTranslate);
-					FlashCard temp = new FlashCard(textToTranslate,translatedText);
+		        	String writedText =  TxtAWritedText.getText();
+					String translatedText = tr.translate(writedText);
+					FlashCard temp = new FlashCard(writedText,translatedText);
 					FlashCardList.add(temp);
 					data.clear();
 					data.addAll(FlashCardList);
@@ -104,11 +104,11 @@ public class MainController  implements Initializable{
 		        @Override
 		        public void handle(ActionEvent event) {
 		        tr.setSourceLanguage(languageMap.get(MBtnTranslatedText.getText()));
-		        tr.setDestinationLanguage(languageMap.get(MBtnTextToTranslate.getText()));
+		        tr.setDestinationLanguage(languageMap.get(MBtnWritedText.getText()));
 		        String tempLang = MBtnTranslatedText.getText();
 		        String tempArea = TxtATranslatedText.getText();
-		        MBtnTranslatedText.setText(MBtnTextToTranslate.getText());
-		        MBtnTextToTranslate.setText(tempLang);
+		        MBtnTranslatedText.setText(MBtnWritedText.getText());
+		        MBtnWritedText.setText(tempLang);
 		        TxtATranslatedText.setText(TxtAWritedText.getText());
 		        TxtAWritedText.setText(tempArea);
 		        }
@@ -122,12 +122,12 @@ public class MainController  implements Initializable{
 		        }
 		    });
 
-		 // Setting action for every item in MenuButton  MBtnTextToTranslate
-		 for(MenuItem item : MBtnTextToTranslate.getItems() ){
+		 // Setting action for every item in MenuButton  MBtnWritedText
+		 for(MenuItem item : MBtnWritedText.getItems() ){
 			 item.setOnAction(new EventHandler<ActionEvent>() {
 			        @Override
 			        public void handle(ActionEvent event) {
-			        	MBtnTextToTranslate.setText(item.getText());
+			        	MBtnWritedText.setText(item.getText());
 			        	// We changed source languaged
 			        	tr.setSourceLanguage(languageMap.get(item.getText()));
 			        }

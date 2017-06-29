@@ -31,17 +31,18 @@ public class Translate {
 		String query = URL_ADDRESS + "key=" + URLEncoder.encode(API_KEY, CHARSET)
 				+ "&lang=" + URLEncoder.encode(sourceLanguage,CHARSET) +
 				URLEncoder.encode("-",CHARSET) + URLEncoder.encode(destinationLanguage,CHARSET) + "&text=" + URLEncoder.encode(textToTranslate, CHARSET);
-		//System.out.println(query);
-		try {
-		  return manageConnection(query);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "ERROR";
+
+		String result = "ERROR. The field is empty";
+		if(textToTranslate.length()>0) {
+			try {
+				result = manageConnection(query);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			}
+		return result;
 	}
 
 	//  open HTTPURLConnection
