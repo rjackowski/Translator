@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import pl.translator.controller.MainController;
 
 
 
@@ -16,12 +17,17 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent parent = (Parent) FXMLLoader.load(getClass().getResource("/pl/translator/view/MainPane.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/pl/translator/view/MainPane.fxml"));
+			Parent parent = (Parent)loader.load();
 			Scene scene = new Scene(parent);
+			MainController controller = loader.getController();
 			primaryStage.setScene(scene);
 			primaryStage.setHeight(500);
 			primaryStage.setTitle(APPNAME);
 			primaryStage.show();
+			controller.setStage(primaryStage);
+					
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

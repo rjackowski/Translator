@@ -14,6 +14,7 @@ public FlashCard(String writedText, String translatedText) {
 	setFirstWord(writedText);
 	setSecondWord(translatedText);
 }
+
 public String getFirstWord() {
 	return firstWord.get();
 }

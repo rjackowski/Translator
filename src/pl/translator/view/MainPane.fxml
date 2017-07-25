@@ -14,13 +14,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.translator.controller.MainController">
+<VBox stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.translator.controller.MainController">
    <children>
       <MenuBar VBox.vgrow="NEVER">
          <menus>
             <Menu mnemonicParsing="false" text="Plik">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Zamknij" />
+                  <MenuItem fx:id="MItOpenFile" mnemonicParsing="false" text="Otwórz listę słów" />
+                  <MenuItem fx:id="MItSaveFile" mnemonicParsing="false" text="Zapisz listę słów" />
+                  <MenuItem fx:id="MItClose" mnemonicParsing="false" text="Zamknij program" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edytuj">

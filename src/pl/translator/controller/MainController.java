@@ -1,11 +1,12 @@
 package pl.translator.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -21,6 +22,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import pl.translator.app.FileTool;
 import pl.translator.app.FlashCard;
 import pl.translator.app.Translate;
 
@@ -40,7 +43,16 @@ public class MainController  implements Initializable{
 
     @FXML
     private TextArea TxtATranslatedText;
-
+    
+    @FXML
+    private MenuItem MItSaveFile;
+    
+    @FXML
+    private MenuItem MItOpenFile;
+    
+    @FXML
+    private MenuItem MItClose;
+    
     @FXML
     private MenuButton MBtnTranslatedText;
 
@@ -50,24 +62,38 @@ public class MainController  implements Initializable{
     @FXML
     private TableView<FlashCard> TVwordList = new TableView<FlashCard>() ;
 
+    private Stage primaryStage;
+    private FileTool fileTool;
+    
+    public void setStage(Stage stage) {
+    	this.primaryStage = stage;
+    }
+    
+    public Stage getStage() {
+    	return primaryStage;
+    }
+        
+    
     ObservableList<FlashCard> data = FXCollections.observableArrayList();
-    List<FlashCard> FlashCardList = new ArrayList<>();
-    Map<String , String> languageMap = new HashMap<String, String>(){{
+    HashMap<String, String> languageMap = new HashMap<String, String>(){{
         put("Polski", "pl");
         put("Niemiecki", "de");
         put("Angielski", "en");
     }};;
-
+    
+    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
-		 // Set a default text and language in menuButton
+		
+		// Create object to save and open files.
+		 fileTool = new FileTool(getStage());
+		
+		// Set a default text and language in menuButton
 		 MBtnWritedText.setText("Polski");
 		 MBtnTranslatedText.setText("Angielski");
 		 // We are creating new object to translate text and giving a default languages like a parameters
 		 // We take languages from default text on buttons
 		 Translate tr = new Translate(languageMap.get(MBtnWritedText.getText()), languageMap.get(MBtnTranslatedText.getText()));
-
 		 // Initialization for  columns
 		 // In field PropertyValueFactory name of variable from FlashCard class
 		 TableColumn<FlashCard,String> firstNameCol = new TableColumn<FlashCard,String>("Tekst");
@@ -78,20 +104,16 @@ public class MainController  implements Initializable{
   		 lastNameCol.setMinWidth(150.0);
   		 TVwordList.getColumns().setAll(firstNameCol, lastNameCol);
   		 TVwordList.setItems(data);
-
-
+  		 
 
 		 BtnTranslate.setOnAction(new EventHandler<ActionEvent>() {
 		        @Override
 		        public void handle(ActionEvent event) {
 		          try {
-
 		        	String writedText =  TxtAWritedText.getText();
 					String translatedText = tr.translate(writedText);
 					FlashCard temp = new FlashCard(writedText,translatedText);
-					FlashCardList.add(temp);
-					data.clear();
-					data.addAll(FlashCardList);
+					data.add(temp);
 					TxtATranslatedText.setText(translatedText);
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
@@ -146,9 +168,34 @@ public class MainController  implements Initializable{
 			    });
 		 }
 
+		 MItClose.setOnAction(x -> System.exit(0));
 
-
-
+		 
+		 MItOpenFile.setOnAction(new EventHandler<ActionEvent>(){
+			 @Override
+			 public void handle(ActionEvent event) {
+			 try {
+				// Clean current observable list and add new items from file
+				data.clear();
+				data.addAll(fileTool.openFile());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 }
+		 });
+		 
+		 MItSaveFile.setOnAction(new EventHandler<ActionEvent>(){
+			 @Override
+			 public void handle(ActionEvent event) {
+			 try {
+				fileTool.saveFile(data);
+			 } catch (IOException e) {
+				System.out.println("File saving failed");
+			 }
+			 }
+		 });
 	}
-
+	
+	 
 }
